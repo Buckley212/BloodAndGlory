@@ -9,13 +9,13 @@ const player_image = new Image();
 player_image.src = './resources/assets/sprites/soldier_idle_spritesheet.png'
 
 const player_image_shoot = new Image();
-player_image_shoot.src = './resources/assets/survivor-idle_shotgun_fire.png'
+player_image_shoot.src = './resources/assets/muzzleFlash1.png'
 
 const zombie_image = new Image();
 zombie_image.src = './resources/assets/sprites/z_move_spritesheet.png'
 
 const splatter_image = new Image();
-const bloodimages = ['./resources/assets/bloodPools/blood-splatter1.png','./resources/assets/bloodPools/blood-splatter3.png','./resources/assets/bloodPools/blood-splatter4.png','./resources/assets/bloodPools/blood-splatter5.png']
+const bloodimages = ['./resources/assets/bloodPools/blood-splatter1.png','./resources/assets/bloodPools/blood-splatter3.png','./resources/assets/bloodPools/blood-splatter4.png','./resources/assets/bloodPools/blood-splatter5.png','./resources/assets/bloodPools/blood-splatter6.png','./resources/assets/bloodPools/blood-splatter7.png','./resources/assets/bloodPools/blood-splatter2.png']
 
 const barrier_image = new Image();
 barrier_image.src = './resources/assets/sandbag_barrier.png'
@@ -42,12 +42,34 @@ const score = {
     }
 }
 
+const timer = {
+    time: 120,
+    draw: function(){
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "yellow";
+        if (this.time <= 0){
+            victory()
+        }
+        if (frame % 120 === 0){
+            this.time -= 1
+        }
+        ctx.fillText("Time Remaining: "+this.time, canvas.width/2 -100, 50);
+    }
+}
+
 const cash = {
     money: 0,
     draw: function () {
         ctx.font = "30px Arial";
         ctx.fillStyle = "yellow";
         ctx.fillText("Cash: "+this.money, canvas.width - 150, 50);
+    }
+}
+
+const barrierHealth = {
+    draw: function(){
+        ctx.fillText('Wall Health: ', 50, canvas.height - 65)
+        ctx.fillRect(250, canvas.height -100, barriers[0].health/6, 50)
     }
 }
 
@@ -66,8 +88,12 @@ class Barrier {
 
 const gameOver = () => {
     cancelAnimationFrame(gameInt)
-    alert("GAME OVER")
-    window.location.reload()
+    document.querySelector('body').innerHTML += '<img src="./resources/assets/endScreens/defeat.png" class="lose"></img>'
+}
+
+const victory = () => {
+    cancelAnimationFrame(gameInt)
+    document.querySelector('body').innerHTML += '<img src="./resources/assets/endScreens/victory.png" class="win"></img>'
 }
 
 let barriers = [];
@@ -152,16 +178,20 @@ class Player {
         ctx.translate(centerOfPlayerX, centerOfPlayerY);
         ctx.rotate(gPlayerAngleInRads + (90 * Math.PI) / 180);
         ctx.translate(-centerOfPlayerX, -centerOfPlayerY);
-        // if(shooting){
-        //     ctx.globalAlpha = .4;
-        //     ctx.drawImage(this.img2, this.x, this.y, this.w, this.h);
-        //     ctx.globalAlpha = 1;
-        //     ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+        if(shooting){
+            ctx.drawImage(this.img2, this.x+50, this.y, 50, 50);
+            ctx.drawImage(
+                this.img, sx, sy, sw, sh,
+                this.x, this.y+30, this.w, this.h
+            )
+        }
         // } else {ctx.drawImage(this.img, this.x, this.y, this.w, this.h);}
-        ctx.drawImage(
-            this.img, sx, sy, sw, sh,
-            this.x, this.y, this.w, this.h
-        )
+        else{
+            ctx.drawImage(
+                this.img, sx, sy, sw, sh,
+                this.x, this.y+30, this.w, this.h
+            )
+        }
         ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 }
@@ -232,7 +262,7 @@ addEventListener("click", (event) => {
             player.x + 20,
             player.y + 80,
             5,
-            `darkGrey`,
+            `#7E8784`,
             velocity
         )
     )
@@ -340,7 +370,7 @@ class Zombie {
         if (this.y === 300) {
             this.y -= 0;
             if (barriers[0].health >= 1){
-                if (frame % 120 === 0){
+                if (frame % 120 === 0 && barriers.length > 0){
                     barriers[0].health -=100;
                 }
             }
@@ -362,7 +392,7 @@ class FastZ extends Zombie {
         }
         if (this.y === 300) {
             this.y -= 0;
-            if (frame % 120 === 0){
+            if (frame % 120 === 0 && barriers.length > 0){
                 barriers[0].health -=5;
             }
             if (barriers[0].health <= 0) {
@@ -383,7 +413,7 @@ class TankZ extends Zombie {
         }
         if (this.y === 300) {
             this.y -= 0;
-            if (frame % 120 === 0){
+            if (frame % 120 === 0 && barriers.length > 0){
                 barriers[0].health -= 50;
             }
             if (barriers[0].health <= 0) {
@@ -427,7 +457,6 @@ function animate() {
     gameInt=requestAnimationFrame(animate)
     ctx.clearRect(0,0,canvas.width,canvas.height)
     background.draw();
-    player.draw();
     bloodPools.forEach(pool => {
         pool.draw()
     })
@@ -439,6 +468,7 @@ function animate() {
             barrier.draw()
         });
     }
+    player.draw();
     zombies.forEach(badguy => {
         badguy.draw()
         badguy.move()
@@ -469,6 +499,8 @@ function animate() {
     })
     score.draw();
     cash.draw();
+    barrierHealth.draw()
+    timer.draw();
     frame++
 }
 
