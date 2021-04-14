@@ -6,13 +6,13 @@ const backgroundImage = new Image();
 backgroundImage.src = './resources/assets/gameMap.PNG'
 
 const player_image = new Image();
-player_image.src = './resources/assets/survivor-idle_shotgun_0.png'
+player_image.src = './resources/assets/sprites/soldier_idle_spritesheet.png'
 
 const player_image_shoot = new Image();
 player_image_shoot.src = './resources/assets/survivor-idle_shotgun_fire.png'
 
 const zombie_image = new Image();
-zombie_image.src = './resources/assets/zombie.png'
+zombie_image.src = './resources/assets/sprites/z_move_spritesheet.png'
 
 const splatter_image = new Image();
 const bloodimages = ['./resources/assets/bloodPools/blood-splatter1.png','./resources/assets/bloodPools/blood-splatter3.png','./resources/assets/bloodPools/blood-splatter4.png','./resources/assets/bloodPools/blood-splatter5.png']
@@ -59,18 +59,8 @@ class Barrier {
         this.w = w;
         this.h = h;
     }
-    // health: 4000;
-    // x: -80;
-    // y: 210;
-    // w: canvas.width + 200;
-    // h: 140;
     draw(){
-        if(this.health >= 1){
         ctx.drawImage(barrier_image, this.x, this.y, this.w, this.h)
-        }
-        else {
-            gameOver();
-        }
     }
 }
 
@@ -82,6 +72,59 @@ const gameOver = () => {
 
 let barriers = [];
 barriers.push(new Barrier(4000, -80, 210, canvas.width+200, 140))
+
+
+let numberOfImages = 20
+let numberOfRows = 1
+let numOfActualImages = 20
+let rowImOn = 0
+
+player_image.onload = function() {
+    sx = 0
+    sy = rowImOn * player_image.height / numberOfRows
+    sw = player_image.width / numberOfImages
+    sh = player_image.height / numberOfRows
+    dx = 0
+    dy = 0
+}
+
+
+let numberOfImagesZ = 17
+let numberOfRowZ = 1
+let numOfActualImagesZ = 17
+let rowImOnZ = 0
+
+zombie_image.onload = function() {
+    sxz = 0
+    syz = rowImOnZ * zombie_image.height / numberOfRowZ
+    swz = zombie_image.width / numberOfImagesZ
+    shz = zombie_image.height / numberOfRowZ
+    dxz = 0
+    dyz = 0
+}
+
+
+let z = 0;
+
+setInterval(function () {
+    sxz += swz
+    z++
+    if (z >= numOfActualImagesZ - 1) {
+        sxz = 0;
+        z = 0;
+    }
+}, 100)
+
+let i = 0;
+
+setInterval(function () {
+    sx += sw
+    i++
+    if (i >= numOfActualImages - 1) {
+        sx = 0;
+        i = 0;
+    }
+}, 250)
 
 class Player {
     constructor(x, y, w, h, img, img2){
@@ -109,14 +152,17 @@ class Player {
         ctx.translate(centerOfPlayerX, centerOfPlayerY);
         ctx.rotate(gPlayerAngleInRads + (90 * Math.PI) / 180);
         ctx.translate(-centerOfPlayerX, -centerOfPlayerY);
-        if(shooting){
-            ctx.globalAlpha = .4;
-            ctx.drawImage(this.img2, this.x, this.y, this.w, this.h);
-            ctx.globalAlpha = 1;
-            ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
-        } else {ctx.drawImage(this.img, this.x, this.y, this.w, this.h);}
+        // if(shooting){
+        //     ctx.globalAlpha = .4;
+        //     ctx.drawImage(this.img2, this.x, this.y, this.w, this.h);
+        //     ctx.globalAlpha = 1;
+        //     ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+        // } else {ctx.drawImage(this.img, this.x, this.y, this.w, this.h);}
+        ctx.drawImage(
+            this.img, sx, sy, sw, sh,
+            this.x, this.y, this.w, this.h
+        )
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        
     }
 }
 
@@ -183,8 +229,8 @@ addEventListener("click", (event) => {
 
     bullets.push(
         new Bullet(
-            player.x + 52,
-            player.y + 70,
+            player.x + 20,
+            player.y + 80,
             5,
             `darkGrey`,
             velocity
@@ -280,7 +326,10 @@ class Zombie {
 
     draw = () => {
         if(this.health > 0){
-            ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
+            ctx.drawImage(
+                this.img, sxz, syz, swz, shz,
+                this.x, this.y, this.w, this.h
+            )
         }
     }
     
@@ -291,9 +340,9 @@ class Zombie {
         if (this.y === 300) {
             this.y -= 0;
             if (barriers[0].health >= 1){
-                setInterval(function(){
-                    barriers[0].health -=1;
-                }, 3000)
+                if (frame % 120 === 0){
+                    barriers[0].health -=100;
+                }
             }
             if (barriers[0].health <= 0) {
                 barriers.splice(0, 1)
@@ -307,21 +356,14 @@ class FastZ extends Zombie {
         super(x, y, w, h, img);
         this.health = 50;
     }
-    draw = () => {
-        if(this.health > 0){
-            ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
-        }
-    }
     move = () => {
         if (this.y > 300){
             this.y -= 5
         }
         if (this.y === 300) {
             this.y -= 0;
-            if (barriers[0].health >= 1){
-                setInterval(function(){
-                    barriers[0].health -=5;
-                }, 3000)
+            if (frame % 120 === 0){
+                barriers[0].health -=5;
             }
             if (barriers[0].health <= 0) {
                 barriers.splice(0, 1)
@@ -335,21 +377,14 @@ class TankZ extends Zombie {
         super(x, y, w, h, img);
         this.health = 1000;
     }
-    draw = () => {
-        if(this.health > 0){
-            ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
-        }
-    }
     move = () => {
         if (this.y > 300){
             this.y -= 0.1;
         }
         if (this.y === 300) {
             this.y -= 0;
-            if (barriers[0].health >= 1){
-                setInterval(function(){
-                    barriers[0].health -= 50;
-                }, 3000)
+            if (frame % 120 === 0){
+                barriers[0].health -= 50;
             }
             if (barriers[0].health <= 0) {
                 barriers.splice(0, 1)
@@ -387,7 +422,7 @@ const background = {
 }
 
 let gameInt = null;
-
+let frame = 0;
 function animate() {
     gameInt=requestAnimationFrame(animate)
     ctx.clearRect(0,0,canvas.width,canvas.height)
@@ -396,9 +431,14 @@ function animate() {
     bloodPools.forEach(pool => {
         pool.draw()
     })
-    barriers.forEach(barrier => {
-        barrier.draw()
-    });
+    if (barriers.length === 0){
+        gameOver()
+    } 
+    else {
+        barriers.forEach(barrier => {
+            barrier.draw()
+        });
+    }
     zombies.forEach(badguy => {
         badguy.draw()
         badguy.move()
@@ -429,6 +469,7 @@ function animate() {
     })
     score.draw();
     cash.draw();
+    frame++
 }
 
 let startBtn = document.getElementById('start-btn');
