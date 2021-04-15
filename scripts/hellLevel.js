@@ -3,7 +3,7 @@ const canvas = document.querySelector('canvas');
 let ctx = canvas.getContext('2d');
 
 const backgroundImage = new Image();
-backgroundImage.src = './resources/assets/Hell_Map.png'
+backgroundImage.src = './resources/assets/hell_Map.png'
 
 const player_image = new Image();
 player_image.src = './resources/assets/sprites/soldier_idle_spritesheet.png'
