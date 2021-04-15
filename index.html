@@ -5,13 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./resources/style.css">
-    <title>Document</title>
+    <title>Game Intro</title>
 </head>
-<body>
+<body class="level-screen">
     <div class="start">
         <img id="start-btn" src="./resources/assets/coollogo_com-196721338-removebg-preview.png" alt="" srcset="">
     </div>
-    <canvas width="1000" height ="1000"></canvas>
+    <img src="./resources/assets/levelScreens/levelSelect.png">
+    <div class='level-select'>
+        <div class='park-level'>
+            <a href="./parkLevel.html"><img class="portrait" src="./resources/assets/levelScreens/parkLevel.png">
+            <img src="./resources/assets/levelScreens/thePark_selector.png"> </a>
+        </div>
+        <div class="hell-level">
+            <a href="./hellLevel.html"><img class="portrait" src="./resources/assets/levelScreens/hellPortrait.png">
+            <img src="./resources/assets/levelScreens/hellSelector.png"></a>
+        </div>
     </div>
 </body>
 <script src="./scripts/index.js"></script>

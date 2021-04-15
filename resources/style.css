@@ -25,6 +25,48 @@ canvas{
     background-size: cover;
 }
 
+.level-screen{
+    display: flex;
+    flex-direction: column;
+}
+
+.level-select {
+    border: 3px solid rgb(119, 119, 9);
+    background-color: rgba(0, 0, 0, 0.474);
+    border-radius: 15px;
+    justify-content: space-around;
+}
+
+.park-level {
+    display: flex;
+    flex-direction: row;
+    padding: 10%;
+    margin: 10%;
+    transition: all 0.5s ease-in-out;
+}
+
+.park-level:hover{
+    transform: scale(1.1);
+}
+
+.portrait {
+    width: 20vw;
+    height: 20vh;
+    border-radius: 15px;
+    border: 2px solid rgb(119, 119, 9);
+}
+
+.hell-level {
+    display: flex;
+    flex-direction: row;
+    padding: 10%;
+    margin: 10%;
+    transition: all 0.5s ease-in-out;
+}
+
+.hell-level:hover {
+    transform: scale(1.1);
+}
 
 #start-btn {
     background: none;
