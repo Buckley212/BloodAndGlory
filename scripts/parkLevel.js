@@ -244,6 +244,7 @@ let shooting = false;
 const bullets = [];
 
 addEventListener("click", (event) => {
+    event.preventDefault();
     let canvasXY = canvas.getBoundingClientRect();
 
     let actualMouseClickX = event.clientX - canvasXY.x;
