@@ -12,7 +12,7 @@ const player_image_shoot = new Image();
 player_image_shoot.src = './resources/assets/muzzleFlash1.png'
 
 const zombie_image = new Image();
-zombie_image.src = './resources/assets/sprites/z_move_spritesheet.png'
+zombie_image.src = './resources/assets/sprites/demon_forward.png'
 
 const splatter_image = new Image();
 const bloodimages = ['./resources/assets/bloodPools/blood-splatter1.png','./resources/assets/bloodPools/blood-splatter3.png','./resources/assets/bloodPools/blood-splatter4.png','./resources/assets/bloodPools/blood-splatter5.png','./resources/assets/bloodPools/blood-splatter6.png','./resources/assets/bloodPools/blood-splatter7.png','./resources/assets/bloodPools/blood-splatter2.png']
@@ -115,9 +115,9 @@ player_image.onload = function() {
 }
 
 
-let numberOfImagesZ = 17
+let numberOfImagesZ = 4
 let numberOfRowZ = 1
-let numOfActualImagesZ = 17
+let numOfActualImagesZ = 4
 let rowImOnZ = 0
 
 zombie_image.onload = function() {
