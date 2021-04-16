@@ -401,7 +401,7 @@ class FastZ extends Zombie {
         if (this.y === 300) {
             this.y -= 0;
             if (frame % 120 === 0 && barriers.length > 0){
-                barriers[0].health -=5;
+                barriers[0].health -= 150;
             }
             if (barriers[0].health <= 0) {
                 barriers.splice(0, 1)
@@ -422,7 +422,7 @@ class TankZ extends Zombie {
         if (this.y === 300) {
             this.y -= 0;
             if (frame % 120 === 0 && barriers.length > 0){
-                barriers[0].health -= 50;
+                barriers[0].health -= 300;
             }
             if (barriers[0].health <= 0) {
                 barriers.splice(0, 1)
