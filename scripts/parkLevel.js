@@ -23,7 +23,6 @@ barrier_image.src = './resources/assets/sandbag_barrier.png';
 const bulletButton = document.getElementById('damage');
 const barrierButton = document.getElementById('health');
 
-let bulletSound = new Audio("./resources/music/Ak47AutomaticRifle PE094101_preview.mp3");
 
 let bulletDamage = 1;
 let barrierDurability = 1;
@@ -275,17 +274,7 @@ addEventListener("click", (event) => {
         )
     )
 });
-  
-addEventListener("click", function(){
-    bulletSound.play();
-    setTimeout(function(){
-        bulletSound.currentTime = 0;
-		if(bulletSound.currentTime > 2){
-			bulletSound.pause();
-            bulletSound.currentTime = 0;
-				}
-			},1);
-})
+
 
 function detectCollision(rect1, rect2) {
     if (
