@@ -18,7 +18,13 @@ const splatter_image = new Image();
 const bloodimages = ['./resources/assets/bloodPools/blood-splatter1.png','./resources/assets/bloodPools/blood-splatter3.png','./resources/assets/bloodPools/blood-splatter4.png','./resources/assets/bloodPools/blood-splatter5.png','./resources/assets/bloodPools/blood-splatter6.png','./resources/assets/bloodPools/blood-splatter7.png','./resources/assets/bloodPools/blood-splatter2.png']
 
 const barrier_image = new Image();
-barrier_image.src = './resources/assets/sandbag_barrier.png'
+barrier_image.src = './resources/assets/sandbag_barrier.png';
+
+const bulletButton = document.getElementById('damage');
+const barrierButton = document.getElementById('health');
+
+let bulletDamage = 1;
+let barrierDurability = 1;
 
 let gMouseX = 0;
 let gMouseY = 0;
@@ -450,6 +456,21 @@ const background = {
         ctx.drawImage(backgroundImage, this.x, this.y, this.w, this.h)
     }
 }
+
+bulletButton.addEventListener('click', function(){
+    if (cash.money >= 25){
+        cash.money -= 25;
+        bulletDamage++;
+    }
+})
+
+barrierButton.addEventListener('click', function(){
+    if (cash.money >= 25){
+        cash.money -= 25;
+        barrierDurability++;
+    }
+})
+
 
 let gameInt = null;
 let frame = 0;

@@ -18,7 +18,14 @@ const splatter_image = new Image();
 const bloodimages = ['./resources/assets/bloodPools/blood-splatter1.png','./resources/assets/bloodPools/blood-splatter3.png','./resources/assets/bloodPools/blood-splatter4.png','./resources/assets/bloodPools/blood-splatter5.png','./resources/assets/bloodPools/blood-splatter6.png','./resources/assets/bloodPools/blood-splatter7.png','./resources/assets/bloodPools/blood-splatter2.png']
 
 const barrier_image = new Image();
-barrier_image.src = './resources/assets/sandbag_barrier.png'
+barrier_image.src = './resources/assets/sandbag_barrier.png';
+
+const bulletButton = document.getElementById('damage');
+const barrierButton = document.getElementById('health');
+
+
+let bulletDamage = 1;
+let barrierDurability = 1;
 
 let gMouseX = 0;
 let gMouseY = 0;
@@ -75,7 +82,7 @@ const barrierHealth = {
 
 class Barrier {
     constructor(health, x, y, w, h){
-        this.health = health;
+        this.health = health * barrierDurability;
         this.x = x;
         this.y = y;
         this.w = w;
@@ -139,7 +146,7 @@ setInterval(function () {
         sxz = 0;
         z = 0;
     }
-}, 100)
+}, 500)
 
 let i = 0;
 
@@ -276,7 +283,7 @@ function detectCollision(rect1, rect2) {
         rect1.y + rect1.h > rect2.y
       ) {
         if (rect2.health >= 51) {
-            rect2.health -= 50;
+            rect2.health -= 50 * bulletDamage;
             score.points += 5
             bullets.splice(bullets.indexOf(rect1), 1);
             bloodPools.push(new Blood(rect2.x - 50, rect2.y, bloodimages[Math.floor(Math.random()*bloodimages.length)]))
@@ -301,7 +308,7 @@ function detectCollision(rect1, rect2) {
         rect1.y + rect1.h > rect2.y
       ) {
         if (rect2.health >= 51) {
-            rect2.health -= 50;
+            rect2.health -= 50 * bulletDamage;
             score.points += 100
             bullets.splice(bullets.indexOf(rect1), 1);
             bloodPools.push(new Blood(rect2.x - 50, rect2.y, bloodimages[Math.floor(Math.random()*bloodimages.length)]))
@@ -326,7 +333,7 @@ function detectCollision(rect1, rect2) {
         rect1.y + rect1.h > rect2.y
       ) {
         if (rect2.health >= 51) {
-            rect2.health -= 50;
+            rect2.health -= 50 * bulletDamage;
             score.points += 10
             bullets.splice(bullets.indexOf(rect1), 1);
             bloodPools.push(new Blood(rect2.x + 75, rect2.y + 50, bloodimages[Math.floor(Math.random()*bloodimages.length)]))
@@ -450,6 +457,20 @@ const background = {
         ctx.drawImage(backgroundImage, this.x, this.y, this.w, this.h)
     }
 }
+
+bulletButton.addEventListener('click', function(){
+    if (cash.money >= 25){
+        cash.money -= 25;
+        bulletDamage++;
+    }
+})
+
+barrierButton.addEventListener('click', function(){
+    if (cash.money >= 25){
+        cash.money -= 25;
+        barrierDurability++;
+    }
+})
 
 let gameInt = null;
 let frame = 0;

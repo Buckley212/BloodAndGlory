@@ -115,6 +115,25 @@ button {
     position: absolute;
 }
 
+.shop{
+    margin-bottom: 40%;
+    margin-left: 1%;
+}
+
+.shop h3 {
+    color: white;
+    font-size: 26px;
+    z-index: -10;
+}
+
+.shop button {
+    background: red;
+    color: white;
+    padding: 5%;
+    font-size: 14px;
+    border-color: rgb(119, 119, 7);
+}
+
 @keyframes start-fade {
     from {
         opacity: 1;
