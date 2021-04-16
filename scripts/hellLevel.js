@@ -94,12 +94,12 @@ class Barrier {
 
 const gameOver = () => {
     cancelAnimationFrame(gameInt)
-    document.querySelector('body').innerHTML += '<img src="./resources/assets/endScreens/defeat.png" class="lose"></img>'
+    document.querySelector('body').innerHTML += '<div class="endScreen"><img src="./resources/assets/endScreens/defeat.png" class="lose"></img><div class="endBottom"><a href="index.html"><img src="./resources/assets/endScreens/return.png"></img></img></a><a href="./hellLevel.html"><img src="./resources/assets/endScreens/restart.png"></img></a></div></div>'
 }
 
 const victory = () => {
     cancelAnimationFrame(gameInt)
-    document.querySelector('body').innerHTML += '<img src="./resources/assets/endScreens/victory.png" class="win"></img>'
+    document.querySelector('body').innerHTML += '<div class="endScreen"><img src="./resources/assets/endScreens/victory.png" class="win"></img><div class="endBottom"><a href="index.html"><img src="./resources/assets/endScreens/return.png"></img></img></a><a href="./hellLevel.html"><img src="./resources/assets/endScreens/restart.png"></img></a></div></div>'
 }
 
 let barriers = [];

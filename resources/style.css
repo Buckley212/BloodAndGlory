@@ -113,6 +113,26 @@ button {
     z-index: 5;
     margin: auto;
     position: absolute;
+    display: flex;
+}
+
+.endScreen {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    padding-right: 5%;
+}
+
+.endBottom {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    margin-top: 85vh;
+}
+
+.endBottom img {
+    padding: 5vh 10vw;
 }
 
 .start {
